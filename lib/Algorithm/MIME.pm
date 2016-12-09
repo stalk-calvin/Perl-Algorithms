@@ -1,5 +1,10 @@
 package Algorithm::MIME;
 
+/*
+ * Copyright Calvin Lee - 2016.
+ * All Rights Reserved.
+ */
+
 use utf8;
 use strict;
 use warnings;

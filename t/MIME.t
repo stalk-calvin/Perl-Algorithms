@@ -1,4 +1,10 @@
 #!/usr/bin/perl -w
+
+/*
+ * Copyright Calvin Lee - 2016.
+ * All Rights Reserved.
+ */
+
 use strict;
 
 use utf8;

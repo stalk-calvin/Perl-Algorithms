@@ -1,0 +1,15 @@
+language: perl
+perl:
+  - "5.22"
+  - "5.20"
+  - "5.18"
+
+notifications:
+  email:
+    recipients:
+      - stalk.calvin@gmail.com
+    on_success: change
+    on_failure: always
+
+script: perl Makefile.PL && make test
+

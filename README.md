@@ -13,9 +13,9 @@ To install this module type the following:
 
 ## DEPENDANCIES
 
-cpan install Test::More;
-cpan install Encode;
-cpan install Encode::Detect;
+- cpan install Test::More;
+- cpan install Encode;
+- cpan install Encode::Detect;
 
 ## Contributors
 

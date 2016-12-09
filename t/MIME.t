@@ -1,10 +1,4 @@
 #!/usr/bin/perl -w
-
-/*
- * Copyright Calvin Lee - 2016.
- * All Rights Reserved.
- */
-
 use strict;
 
 use utf8;
@@ -31,4 +25,15 @@ subtest testRepairUnicodes => sub {
 };
 
 done_testing;
+
+1;
+__END__
+
+=head1 AUTHOR
+
+Calvin Lee, E<lt>stalk.calvin@gmail.comE<gt>
+
+=head1 COPYRIGHT AND LICENSE
+
+Copyright/Licensed (C) 2016 by Calvin Lee
 

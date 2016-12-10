@@ -3,9 +3,9 @@ perl:
   - "5.22"
   
 install:
-  - cpan -i Encode
-  - cpan -i Encode::Detect
-  - cpan -i Test::More
+  - cpanm Encode
+  - cpanm Encode::Detect
+  - cpanm Test::More
 
 notifications:
   email:

@@ -7,6 +7,93 @@ use warnings;
 use Encode;
 use Encode::Detect;
 
+my @SIZES = ('', 'K', 'M', 'G', 'T', 'P', 'E', 'Z', 'Y');
+
+sub getReadableSize {
+   my $size = shift;
+   my $suffixMax = shift;
+   
+   return "0B" unless(defined $size);
+   
+   $suffixMax = 'G' unless($suffixMax);
+   
+   my $need2decimal = 0;
+   
+   my $suffix = '';
+   for(@SIZES) {
+       $suffix = $_;
+       $need2decimal = 1 if($suffix eq 'G');
+       last if $size < 1024;
+       last if $suffix eq $suffixMax;
+       last if $suffix eq 'Y';
+       $size /= 1024;
+   }
+   
+   my $num;
+   if($need2decimal) {
+       $num = sprintf("%.2f", $size);
+       $num = $1 if($num =~ /(\d+)\.00$/);
+   } else {
+       $num = sprintf("%d", $size + 0.5);
+   }
+
+   return "$num $suffix" . "B";
+}
+
+sub getSizeFromReadableString {
+    my $splitsize = shift;
+    
+    my $regexp = qr/^(\d+)(\.\d*)?\s*(|K|M|G|T|P|E|Z|Y)B?$/i;
+
+    my $realsize = 0;
+    if ($splitsize =~ $regexp) {
+        $realsize = $1;
+        $realsize .= $2 if($2);
+        if($3) {
+            my $suffix = uc($3);
+            my $base = 1;
+            for(@SIZES) {
+                $base *= 1024;
+                last if($suffix eq $_);
+            }
+            $realsize *= $base;
+        }
+    }
+    
+    return $realsize;
+}
+
+sub getPrettySizeText {
+   my $len = shift;
+
+   if ($len >= 1048576){
+      $len = int($len/1048576*10+0.5)/10 . "MB";
+   } elsif ($len >= 2048) {
+      $len =  int(($len/1024)+0.5) . "KB";
+   } else {
+      $len = $len . "B";
+   }
+   return ($len);
+}
+
+sub getSizeWithCommas {
+    my $integer = shift;
+    
+    my @parts = split(//, $integer);
+    
+    my $newsize = "";
+    my $pos = 0;
+    for(my $i=$#parts; $i>=0; $i--) {
+       if($pos > 0 && $pos % 3 == 0) {
+          $newsize = "," . $newsize;
+       }
+       $newsize = $parts[$i] . $newsize;
+       $pos++;
+    }
+    
+    return $newsize;
+}
+
 sub decode_charset_mimewords {
    my $string = shift;
    return decode_mimewords(decode_charset($string));

@@ -1,6 +1,11 @@
 language: perl
 perl:
   - "5.22"
+  
+install:
+  - cpan -i Encode
+  - cpan -i Encode::Detect
+  - cpan -i Test::More
 
 notifications:
   email:

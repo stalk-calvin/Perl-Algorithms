@@ -1,4 +1,4 @@
-# Perl Development [![CI](https://api.travis-ci.org/stalk-calvin/Perl-Development.svg?branch=master)](https://travis-ci.org/stalk-calvin/Perl-Development)
+# Perl Development [![CI](https://api.travis-ci.org/stalk-calvin/Perl-Algorithms.svg?branch=master)](https://travis-ci.org/stalk-calvin/Perl-Algorithms)
 
 Playground for Perl Development
 

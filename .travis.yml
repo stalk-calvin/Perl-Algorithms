@@ -3,9 +3,10 @@ perl:
   - "5.22"
   
 install:
-  - cpanm Encode
-  - cpanm Encode::Detect
   - cpanm Test::More
+  - cpanm XML::Dumper
+  - cpanm MIME::Base64
+  - cpanm JSON
 
 notifications:
   email:

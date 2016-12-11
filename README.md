@@ -13,11 +13,12 @@ To install this module type the following:
 
 ## DEPENDANCIES
 
-- cpan install Test::More;
-- cpan install Encode;
-- cpan install Encode::Detect;
+  - cpanm Test::More
+  - cpanm XML::Dumper
+  - cpanm MIME::Base64
+  - cpanm JSON
 
-## Contributors
+## Contributorss
 
 Calvin Lee, @stalk.calvin
 

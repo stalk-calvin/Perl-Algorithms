@@ -1,11 +1,12 @@
-package Algorithm::MIME;
+package Algorithm::StringUtils;
 
 use utf8;
 use strict;
 use warnings;
 
-use Encode;
-use Encode::Detect;
+use XML::Dumper;
+use MIME::Base64;
+use JSON;
 
 my @SIZES = ('', 'K', 'M', 'G', 'T', 'P', 'E', 'Z', 'Y');
 
@@ -13,16 +14,16 @@ sub getReadableSize {
    my $size = shift;
    my $suffixMax = shift;
    
-   return "0B" unless(defined $size);
+   return "0B" unless defined $size;
    
    $suffixMax = 'G' unless($suffixMax);
    
    my $need2decimal = 0;
    
    my $suffix = '';
-   for(@SIZES) {
-       $suffix = $_;
-       $need2decimal = 1 if($suffix eq 'G');
+   foreach my $sizeLetter (@SIZES) {
+       $suffix = $sizeLetter;
+       $need2decimal = 1 if (defined $suffix && $suffix eq 'G');
        last if $size < 1024;
        last if $suffix eq $suffixMax;
        last if $suffix eq 'Y';
@@ -32,7 +33,7 @@ sub getReadableSize {
    my $num;
    if($need2decimal) {
        $num = sprintf("%.2f", $size);
-       $num = $1 if($num =~ /(\d+)\.00$/);
+       $num = $1 if ($num =~ /(\d+)\.00$/);
    } else {
        $num = sprintf("%d", $size + 0.5);
    }
@@ -42,19 +43,17 @@ sub getReadableSize {
 
 sub getSizeFromReadableString {
     my $splitsize = shift;
-    
-    my $regexp = qr/^(\d+)(\.\d*)?\s*(|K|M|G|T|P|E|Z|Y)B?$/i;
 
     my $realsize = 0;
-    if ($splitsize =~ $regexp) {
+    if ($splitsize =~ /^(\d+)(\.\d*)?\s*(|K|M|G|T|P|E|Z|Y)B?$/i) {
         $realsize = $1;
         $realsize .= $2 if($2);
         if($3) {
             my $suffix = uc($3);
             my $base = 1;
-            for(@SIZES) {
+            foreach my $size (@SIZES) {
                 $base *= 1024;
-                last if($suffix eq $_);
+                last if ($suffix eq $size);
             }
             $realsize *= $base;
         }
@@ -73,7 +72,7 @@ sub getPrettySizeText {
    } else {
       $len = $len . "B";
    }
-   return ($len);
+   return $len;
 }
 
 sub getSizeWithCommas {
@@ -92,32 +91,6 @@ sub getSizeWithCommas {
     }
     
     return $newsize;
-}
-
-sub decode_charset_mimewords {
-   my $string = shift;
-   return decode_mimewords(decode_charset($string));
-}
-
-sub decode_charset {
-   my $string = shift;
-   return $string if !defined $string;
-
-   if (!Encode::is_utf8($string)) {
-      $string = Encode::Detect::decode("Detect",$string);
-   }
-   return $string;
-}
-
-sub decode_mimewords {
-   my $string = shift;
-   return $string if !defined $string;
-
-   if ($string) {
-      #my $charset = Encode::Detect::Detector::detect($string);
-      $string = Encode::decode('MIME-Header',$string);
-   }
-   return $string;
 }
 
 sub repair_unicodes {
@@ -170,6 +143,101 @@ sub repair_unicodes {
    }
    
    return $$text_ref;
+}
+
+
+sub objToXml {
+    my $refData = shift;
+
+    my $xmlstr = "";
+    return $xmlstr unless ref($refData);
+    
+    eval {
+        my $xmldumper = new XML::Dumper;    
+        $xmlstr = $xmldumper->pl2xml($refData);
+    };
+
+    return $xmlstr;
+}
+
+sub xmlToObj {
+    my $xml = shift;
+
+    my $refData = undef;
+    return $refData unless(defined $xml);
+    eval {    
+        my $xmldumper = new XML::Dumper;
+        $refData = $xmldumper->xml2pl($xml);
+    };
+
+    return $refData;
+}
+
+sub toBase64String {
+    my $decoded = shift;
+    
+    return $decoded unless (defined $decoded);
+    
+    my $encoded;
+    eval {
+        $encoded = MIME::Base64::encode($decoded);
+    };
+    if($@) {
+        $encoded = $decoded;
+    }
+    $encoded = $decoded if ($encoded eq "");
+    
+    return $encoded;
+}
+
+sub fromBase64String {
+    my $encoded = shift;
+    
+    return $encoded unless (defined $encoded);
+    
+    my $result;
+    
+    eval {
+        $result = MIME::Base64::decode($encoded);
+    };
+    if($@) {
+        $result = $encoded;
+    }
+    $result = $encoded if ($result eq "");
+    
+    return $result;
+}
+
+
+sub toJsonString {
+    my $refData = shift;
+
+    my $jsonStr = "";
+    my $json = new JSON;
+    $json->canonical(1);
+    eval {
+        $jsonStr = $json->utf8->encode($refData);
+    };
+    if($@) {
+        return "";
+    }
+    
+    return $jsonStr;
+}
+
+sub fromJsonString {
+    my $jsonStr = shift;
+
+    my $refData = undef;
+    my $json = new JSON;
+    eval {
+        $refData = $json->utf8->decode($jsonStr);
+    };    
+    if($@) {
+        return undef;
+    }
+        
+    return $refData;
 }
 
 1;

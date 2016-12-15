@@ -1,6 +1,10 @@
 language: perl
 perl:
   - "5.22"
+
+before_install:
+  - sudo apt-get update
+  - sudo apt-get install host
   
 install:
   - cpanm Test::More

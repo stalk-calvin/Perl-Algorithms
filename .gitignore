@@ -1,0 +1,25 @@
+*.prefs
+
+# Eclipse
+*.classpath
+*.project
+*.settings
+
+# Maven
+log/
+/target
+
+# Intellij
+.idea/
+*.iml
+*.iws
+
+# Mac
+.DS_Store
+
+# Perl Stuffs
+MYMETA.json
+MYMETA.yml
+Makefile
+blib/
+pm_to_blib

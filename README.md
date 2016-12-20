@@ -1,4 +1,4 @@
-# Perl Development [![CI](https://api.travis-ci.org/stalk-calvin/Perl-Algorithms.svg?branch=master)](https://travis-ci.org/stalk-calvin/Perl-Algorithms)
+# Calvin's "Playground" Project [![CI](https://api.travis-ci.org/stalk-calvin/Perl-Algorithms.svg?branch=master)](https://travis-ci.org/stalk-calvin/Perl-Algorithms)
 
 Playground for Perl Development. This is similar to [Java Algorithm](https://github.com/stalk-calvin/Java-Algorithms) problem sets that I have. It is a place to learn and play with Perl codes. 
 

@@ -28,4 +28,4 @@ Calvin Lee, @stalk.calvin
 
 ## Licence
 
-Me, Calvin. Leave my copyright alone.
+Copyleft aka open but please leave my copyright comments alone.

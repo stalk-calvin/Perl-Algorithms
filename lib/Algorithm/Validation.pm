@@ -82,7 +82,7 @@ Returning the value when valid, or return undef when validation fails.
 
 =head1 AUTHOR
 
-Calvin Lee, E<lt>calvin.lee@globalrelay.netE<gt>
+Calvin Lee, E<lt>stalk.calvin@gmail.comE<gt>
 
 =cut
 

@@ -13,10 +13,7 @@ To install this module type the following:
 
 ## DEPENDANCIES
 
-  - cpanm Test::More
-  - cpanm XML::Dumper
-  - cpanm MIME::Base64
-  - cpanm JSON
+  - Listed in the [Makefile.PL](https://github.com/stalk-calvin/Perl-Algorithms/blob/master/Makefile.PL)
 
 ## Contributorss
 
